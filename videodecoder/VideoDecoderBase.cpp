@@ -808,11 +808,11 @@ Decode_Status VideoDecoderBase::setupVA(uint32_t numSurface, VAProfile profile, 
 #else
     if (profile >= VAProfileH264Baseline && profile <= VAProfileVC1Advanced) {
         ITRACE("Using GEN driver");
-        mDisplay = "libva_driver_name=i965";
+        mDisplay = (char *) "libva_driver_name=i965";
         mUseGEN = true;
     } else {
         ITRACE("Using PVR driver");
-        mDisplay = "libva_driver_name=pvr";
+        mDisplay = (char *) "libva_driver_name=pvr";
         mUseGEN = false;
     }
 
