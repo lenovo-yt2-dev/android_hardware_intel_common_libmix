@@ -104,7 +104,7 @@ Decode_Status VideoDecoderAVCSecure::decode(VideoDecodeBuffer *buffer) {
     VTRACE("mFrameSize = %d", mFrameSize);
 
     memcpy(&mEncParam, pFrameInfo->pavp, sizeof(pavp_info_t));
-    for (int32_t i = 0; i < pFrameInfo->num_nalus; i++) {
+    for (int32_t i = 0; (unsigned) i < pFrameInfo->num_nalus; i++) {
         naluType = pFrameInfo->nalus[i].type & NALU_TYPE_MASK;
         if (naluType >= h264_NAL_UNIT_TYPE_SLICE && naluType <= h264_NAL_UNIT_TYPE_IDR) {
             memcpy(mSliceHeaderBuffer + sliceHeaderSize,
