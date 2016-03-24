@@ -49,6 +49,12 @@ LOCAL_SHARED_LIBRARIES := \
     libhardware \
     libintelmetadatabuffer
 
+ifeq ($(ENABLE_IMG_GRAPHICS),)
+LOCAL_SHARED_LIBRARIES += \
+    libui \
+    libutils
+endif
+
 LOCAL_COPY_HEADERS_TO  := libmix_videoencoder
 
 LOCAL_COPY_HEADERS := \
@@ -76,7 +82,7 @@ ifeq ($(ENABLE_IMG_GRAPHICS),true)
     endif
 endif
 
-LOCAL_CFLAGS += -Werror
+# LOCAL_CFLAGS += -Werror
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libva_videoencoder
 
@@ -101,7 +107,7 @@ ifeq ($(INTEL_VIDEO_XPROC_SHARING),true)
 LOCAL_SHARED_LIBRARIES := liblog libutils libbinder libgui \
                           libui libcutils libhardware
 endif
-LOCAL_CFLAGS += -Werror
+# LOCAL_CFLAGS += -Werror
 LOCAL_MODULE_TAGS := optional
 LOCAL_MODULE := libintelmetadatabuffer
 

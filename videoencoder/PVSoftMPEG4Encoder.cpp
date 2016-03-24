@@ -483,7 +483,7 @@ Encode_Status PVSoftMPEG4Encoder::getOutput(VideoEncOutputBuffer *outBuffer, uin
     vin.uChan = vin.yChan + vin.height * vin.pitch;
     vin.vChan = vin.uChan + ((vin.height * vin.pitch) >> 2);
 
-    unsigned long modTimeMs = 0;
+    unsigned modTimeMs = 0;
     int32_t nLayer = 0;
     MP4HintTrack hintTrack;
     if (!PVEncodeVideoFrame(mHandle, &vin, &vout,

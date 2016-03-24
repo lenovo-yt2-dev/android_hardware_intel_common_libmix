@@ -808,11 +808,11 @@ Decode_Status VideoDecoderBase::setupVA(uint32_t numSurface, VAProfile profile, 
 #else
     if (profile >= VAProfileH264Baseline && profile <= VAProfileVC1Advanced) {
         ITRACE("Using GEN driver");
-        mDisplay = "libva_driver_name=i965";
+        mDisplay = (char *) "libva_driver_name=i965";
         mUseGEN = true;
     } else {
         ITRACE("Using PVR driver");
-        mDisplay = "libva_driver_name=pvr";
+        mDisplay = (char *) "libva_driver_name=pvr";
         mUseGEN = false;
     }
 
@@ -954,7 +954,18 @@ Decode_Status VideoDecoderBase::setupVA(uint32_t numSurface, VAProfile profile, 
     mVideoFormatInfo.ctxSurfaces = mSurfaces;
 
     if ((int32_t)profile != VAProfileSoftwareDecoding) {
-        vaStatus = vaCreateContext(
+        if (mUseGEN) {
+            vaStatus = vaCreateContext(
+                mVADisplay,
+                mVAConfig,
+                mVideoFormatInfo.surfaceWidth,
+                mVideoFormatInfo.surfaceHeight,
+                0,
+                NULL,
+                0,
+                &mVAContext);
+        } else {
+            vaStatus = vaCreateContext(
                 mVADisplay,
                 mVAConfig,
                 mVideoFormatInfo.surfaceWidth,
@@ -963,6 +974,7 @@ Decode_Status VideoDecoderBase::setupVA(uint32_t numSurface, VAProfile profile, 
                 mSurfaces,
                 mNumSurfaces + mNumExtraSurfaces,
                 &mVAContext);
+        }
         CHECK_VA_STATUS("vaCreateContext");
     }
 
